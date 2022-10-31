@@ -5,7 +5,28 @@ const UsersAdd = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(users);
+    // ** send data from client
+    const dataSend = async () => {
+      try {
+        const response = await fetch(`http://localhost:15000/users`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(users),
+        });
+        response.ok
+          ? console.log("data send")
+          : console.log("data sending failed");
+        const data = response.json();
+        if (data.acknowledged) {
+          alert("User has been updated");
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    dataSend();
   };
 
   const handleBlur = (event) => {
